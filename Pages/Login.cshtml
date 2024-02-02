@@ -1,0 +1,58 @@
+﻿@page
+@model AS_Assignment.Pages.LoginModel
+
+<head>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</head>
+<div class="container mt-5">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-sm-12 col-md-12 col-lg-4">
+            <h1 class="mb-3">Login</h1>
+
+            <form method="post">
+                <!-- 6.1 antiforge token to protect against CSRF -->
+                @Html.AntiForgeryToken()
+
+                <div class="mb-3">
+                    <!-- 6.1 asp-validation-for encoding  -->
+                    <label class="form-label" asp-for="LModel.Email">Email Address</label>
+                    <input type="text" asp-for="LModel.Email" class="form-control" />
+                    <span asp-validation-for="LModel.Email" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" asp-for="LModel.Password">Password</label>
+                    <input type="password" asp-for="LModel.Password" class="form-control" />
+                    <span asp-validation-for="LModel.Password" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <!--recaptcha widget-->
+                    <div class="g-recaptcha" data-sitekey="6LdrCWMpAAAAAB3tyRxOhgVXfooXtPSZIh5WdYGq"></div>
+                    <span class="text-danger" id="recaptchaError"></span>
+                </div>
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary" onclick="submitForm()">Login</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Add the JavaScript for form submission and reCAPTCHA validation -->
+<script>
+    function submitForm() {
+        //5.1 validate reCAPTCHA before submitting the form
+        var response = grecaptcha.getResponse();
+
+        if (response.length === 0) {
+            document.getElementById("recaptchaError").innerHTML = "Please complete the reCAPTCHA.";
+            return false;
+        } else {
+            document.getElementById("recaptchaError").innerHTML = "";
+            document.getElementById("loginForm").submit();
+            return true;
+        }
+    }
+</script>
+

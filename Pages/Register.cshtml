@@ -1,0 +1,143 @@
+﻿@page
+@model AS_Assignment.Pages.RegisterModel
+
+<div class="container mt-5">
+
+	<div class="row justify-content-center align-items-center">
+
+		<div class="col-sm-12 col-md-12 col-lg-4">
+			<h1 class="mb-3">Register </h1>
+
+			<form method="post" enctype="multipart/form-data">
+				<div asp-validation-summary="All" class="text-danger"></div>
+
+				<div class="mb-3">
+					<label class="form-label" asp-for="RModel.FullName">Full Name</label>
+					<input type="Text" asp-for="RModel.FullName" class="form-control" />
+					<span asp-validaton-for="RModel.FullName" class="text-danger"></span>
+				</div>
+
+				<div class="mb-3">
+					<label class="form-label" asp-for="RModel.Email">Email Address</label>
+					<input type="Text" asp-for="RModel.Email" class="form-control" />
+					<span asp-validaton-for="RModel.Email" class="text-danger"></span>
+				</div>
+
+				<div class="mb-3">
+					<label class="form-label" asp-for="RModel.MobileNo">Mobile Number</label>
+					<input type="Text" asp-for="RModel.MobileNo" class="form-control" />
+					<span asp-validaton-for="RModel.MobileNo" class="text-danger"></span>
+				</div>
+
+				<div class="mb-3">
+					<label class="form-label" asp-for="RModel.DeliveryAddress">Delivery Address</label>
+					<input type="Text" asp-for="RModel.DeliveryAddress" class="form-control" />
+					<span asp-validaton-for="RModel.DeliveryAddress" class="text-danger"></span>
+				</div>
+
+				<div class="mb-3">
+					<label class="form-label" asp-for="RModel.ShippingAddress">Gender</label>
+					<select asp-for="RModel.ShippingAddress" class="form-control">
+						<option value="Male">Male</option>
+						<option value="Female">Female</option>
+						<option value="Others">Others</option>
+					</select>
+					<span asp-validation-for="RModel.ShippingAddress" class="text-danger"></span>
+				</div>
+
+				<div class="mb-3">
+					<label class="form-label" asp-for="RModel.CreditCardNo">Credit Card Number</label>
+					<input type="Text" asp-for="RModel.CreditCardNo" class="form-control" />
+					<span asp-validaton-for="RModel.CreditCardNo" class="text-danger"></span>
+				</div>
+
+				<div class="mb-3">
+					<label class="form-label" asp-for="RModel.Password">Password</label>
+					<input type="password" id="passwordInput" asp-for="RModel.Password" class="form-control"
+						   oninput="checkPasswordStrength()" />
+					<span asp-validaton-for="RModel.Password" class="text-danger"></span>
+
+					<div id="passwordStrength" class="mt-2"></div>
+				</div>
+
+				<div class="mb-3">
+					<label class="form-label" asp-for="RModel.ConfirmPassword">Confirm Password</label>
+					<input type="password" asp-for="RModel.ConfirmPassword" class="form-control" />
+					<span asp-validaton-for="RModel.ConfirmPassword" class="text-danger"></span>
+				</div>
+
+				<div class="mb-3">
+					<label class="form-label" asp-for="RModel.ImageFile">Profile Picture</label>
+					<input type="file" asp-for="RModel.ImageFile" class="form-control" />
+				</div>
+
+
+				<div class="mb-3">
+					<button type="submit" class="btn btn-primary">Register</button>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	@section scripts {
+		<script>
+			//2.2 offer password feedback
+			function checkPasswordStrength() {
+				var password = document.getElementById('passwordInput').value;
+				var strength = 0;
+
+
+				if (password.length < 8) {
+					strength = 0;
+				} else {
+					if (/[A-Z]/.test(password)) {
+						strength += 1;
+					}
+
+					if (/[a-z]/.test(password)) {
+						strength += 1;
+					}
+
+					if (/\d/.test(password)) {
+						strength += 1;
+					}
+
+					if (/[^a-zA-Z\d]/.test(password)) {
+						strength += 1;
+					}
+				}
+
+				var strengthDiv = document.getElementById('passwordStrength');
+				strengthDiv.innerHTML = 'Password Strength: ';
+
+				if (strength === 0) {
+					strengthDiv.innerHTML += 'Weak';
+					strengthDiv.className = 'text-danger';
+				} else if (strength <= 3) {
+					strengthDiv.innerHTML += 'Medium';
+					strengthDiv.className = 'text-warning';
+				} else {
+					strengthDiv.innerHTML += 'Strong';
+					strengthDiv.className = 'text-success';
+				}
+			}
+
+			//2.3 client-based checks
+			function validatePassword() {
+				var password = document.getElementById('passwordInput').value;
+
+				if (/[A-Z]/.test(password) || /[a-z]/.test(password) || ! /\d /.test(password) || !/[^a-zA-Z\d]/.test(password)) {
+					alert('Password must contain at least one uppercase, one lowercase,one digit, one special character.');
+					return false;
+				}
+
+				if (password.length < 12) {
+					alert('Password must be minimum 12 chars.');
+					return false;
+				}
+
+				return true;
+			}
+		</script>
+	}
+</div>

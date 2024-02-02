@@ -1,0 +1,60 @@
+﻿@page
+@model IndexModel
+@inject IHttpContextAccessor contxt;
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="container mt-5">
+    <div class="text-center">
+        <!-- 3.1 takes in last_name from session -->
+        <h1 class="display-4">Welcome, @ViewData["DecryptedFullName"]!</h1>
+    </div>
+
+    <div class="row">
+        <!-- User Information -->
+        <div class="col-md-6">
+            <h1 class="mb-3">User Information</h1>
+
+            <dl class="row">
+                <!-- display decrypted data -->
+                <dt class="col-sm-3">Full Name:</dt>
+                <dd class="col-sm-9">@ViewData["DecryptedFullName"]</dd>
+
+                <dt class="col-sm-3">Email:</dt>
+                <dd class="col-sm-9">@Model.UserInfo.Email</dd>
+
+                <dt class="col-sm-3">Mobile Number:</dt>
+                <dd class="col-sm-9">@Model.UserInfo.PhoneNumber</dd>
+
+                <dt class="col-sm-3">Gender:</dt>
+                <dd class="col-sm-9">@Model.UserInfo.ShippingAddress</dd>
+
+                <dt class="col-sm-3">Delivery Address:</dt>
+                <dd class="col-sm-9">@Model.UserInfo.DeliveryAddress</dd>
+
+                <dt class="col-sm-3">Credit Card Number:</dt>
+                <dd class="col-sm-9">@ViewData["DecryptedCreditCard"]</dd>
+
+            </dl>
+
+            <div class="container mt-3">
+                <a asp-page="/ChangePassword" class="btn btn-primary">Change Password</a>
+            </div>
+        </div>
+
+        <!-- user image -->
+        <div class="col-md-6">
+            <h1 class="mb-3">User Photo</h1>
+
+            @if (Model.UserInfo.Image != null && Model.UserInfo.Image.Length > 0)
+            {
+                <img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.UserInfo.Image)" alt="User Image" class="img-fluid" />
+            }
+            else
+            {
+                <p>No image available</p>
+            }
+        </div>
+    </div>
+</div>
